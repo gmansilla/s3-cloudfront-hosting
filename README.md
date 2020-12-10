@@ -1,9 +1,18 @@
 
-# Welcome to your CDK Python project!
+# Webhosting with S3 and Cloudfront
 
-This is a blank project for Python development with CDK.
+This is a project for deploying the infrastructure to host a static website with [Amazon Cloudfront](https://aws.amazon.com/cloudfront/) and [Amazon S3](https://aws.amazon.com/s3/)
 
-The `cdk.json` file tells the CDK Toolkit how to execute your app.
+![](diagrams/s3CloudfrontDiagram.png) 
+
+
+We'll be using [CDK](https://docs.aws.amazon.com/cdk/latest/guide/home.html) for creating our infrastructure.
+
+First, make sure you clone this project
+
+```
+$git clone https://github.com/gmansilla/s3-cloudfront-hosting.git && cd s3-cloudfront-hosting
+```
 
 This project is set up like a standard Python project.  The initialization
 process also creates a virtualenv within this project, stored under the `.venv`
@@ -37,22 +46,27 @@ Once the virtualenv is activated, you can install the required dependencies.
 $ pip install -r requirements.txt
 ```
 
-At this point you can now synthesize the CloudFormation template for this code.
+Prior to deploying, we need to bootstrap CDK
 
 ```
-$ cdk synth
+$cdk bootstrap
 ```
 
-To add additional dependencies, for example other CDK libraries, just add
-them to your `setup.py` file and rerun the `pip install -r requirements.txt`
-command.
+And we're ready to deploy!
 
-## Useful commands
+```
+$cdk deploy
+```
 
- * `cdk ls`          list all stacks in the app
- * `cdk synth`       emits the synthesized CloudFormation template
- * `cdk deploy`      deploy this stack to your default AWS account/region
- * `cdk diff`        compare deployed stack with current state
- * `cdk docs`        open CDK documentation
+Pay attention to the Output of this command as this will tell you the URL of your new website.
+
+The URL should be next to ```s3-cloudfront.CloudFrontWebDistribution```
+
+
+
+## Destroying the stack ##
+
+After you experiment with this project, you should delete the contents of your buckets (and any versions of objects) and run ```$cdk destroy```
+Note: this command will attempt to destroy all components created and can fail if you still have objects in your buckets.
 
 Enjoy!
